@@ -11,22 +11,35 @@
 </head>
 
 <body>
-    <header>
+    <header class="bg-dark text-white text-center">
         <h1>Weather Report</h1>
     </header>
+
+    <div class="row">
+        <div class="col-4">
+            <form id="user-form" class="text-center">
+                <label>Search for a City</label>
+                <input type="text" id="city-input" placeholder="city name" />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+
 
     <div class="col-12 col-md-9">
 
         <div class="row boarder">
             <div class="col 12">
-                <h2>Salt Lake City Current Weather</h2>
-                <div id="current-weather"></div>
+                <div id="city-current-date"></div>
+                <div id="search-city-weather" class="city-current-date city-uvi"></div>
             </div>
         </div>
 
     </div>
 
-
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 

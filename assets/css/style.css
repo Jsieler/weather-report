@@ -20,3 +20,7 @@
 .card-img-top {
     height: 150px;
 }
+
+.recent-searches li {
+    background-color: rgb(209, 207, 207);
+}

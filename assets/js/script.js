@@ -8,6 +8,8 @@ var cityWeatherSearch = document.querySelector("#search-city-weather");
 var cityUvi = document.querySelector(".city-uvi");
 var forecastContainer = document.querySelector(".five-day-container");
 var iconContainer = document.querySelector("#icon-main");
+var searchesContainer= document.querySelector(".recent-searches");
+
 
 
 var formSubmitHandler = function (event) {
@@ -25,7 +27,14 @@ var formSubmitHandler = function (event) {
             console.log(lon, lat)
             console.log(response);
             if (city) {
+            
                 localStorage.setItem('city', city)
+                var recentSearches = localStorage.getItem('city')
+                console.log(recentSearches)
+                $(`<ul class="list-group">
+                <li class="list-group-item">${recentSearches}</li>
+                </ul>`).appendTo(searchesContainer)
+                
 
                 var displayCurrentDate = document.querySelector(".city-current-date");
                 var currentDate = moment();
@@ -34,7 +43,6 @@ var formSubmitHandler = function (event) {
                 var currentDate = moment();
                 console.log(currentDate.format())
 
-                var cityName = localStorage.getItem('city')
                 cityName = document.createElement("h2")
                 cityName.textContent = response.name
 

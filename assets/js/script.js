@@ -6,18 +6,12 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city-input");
 var cityWeatherSearch = document.querySelector("#search-city-weather");
 var cityUvi = document.querySelector(".city-uvi");
-var Forecast = document.querySelector(".five-day-container");
-var Forecast1 = document.querySelector("#Forecast1");
-var Forecast2 = document.querySelector("#Forecast2");
-var Forecast3 = document.querySelector("#Forecast3");
-var Forecast4 = document.querySelector("#Forecast4");
-var Forecast5 = document.querySelector("#Forecast5");
-
+var forecastContainer = document.querySelector(".five-day-container");
 
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
-
+    
     var city = cityInputEl.value.trim();
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}${defaultUnits}&appid=${apiKey}`
     ).then(function (response) {
@@ -57,11 +51,12 @@ var formSubmitHandler = function (event) {
 
                 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${defaultUnits}&appid=${apiKey}`
                 ).then(function (response) {
+                    $(forecastContainer).html("");
                     return response.json();
                 })
                     .then(function (response) {
                         console.log(response);
-
+                        
                         var uvi = document.createElement("p")
                         uvi.textContent = " UV Index: " + response.current.uvi
                         cityUvi.append(uvi)
@@ -95,6 +90,7 @@ var formSubmitHandler = function (event) {
                         var wind5 = response.daily[4].wind_speed
                         var humidity5 = response.daily[4].humidity
                         var icon5 = "https://openweathermap.org/img/w/" + response.daily[4].weather[0].icon + ".png"
+                        
 
                         $(`<div class="card">
     <div class="card-header">
@@ -109,7 +105,7 @@ var formSubmitHandler = function (event) {
         </ul>
     </div>
 </div>
-`).appendTo(Forecast)
+`).appendTo(forecastContainer)
 
 $(`<div class="card">
     <div class="card-header">
@@ -124,7 +120,7 @@ $(`<div class="card">
         </ul>
     </div>
 </div>
-`).appendTo(Forecast)
+`).appendTo(forecastContainer)
 
 $(`<div class="card">
     <div class="card-header">
@@ -139,7 +135,7 @@ $(`<div class="card">
         </ul>
     </div>
 </div>
-`).appendTo(Forecast)
+`).appendTo(forecastContainer)
 $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay4.format("L")}</h2>
@@ -153,7 +149,7 @@ $(`<div class="card">
         </ul>
     </div>
 </div>
-`).appendTo(Forecast)
+`).appendTo(forecastContainer)
 $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay5.format("L")}</h2>
@@ -167,7 +163,7 @@ $(`<div class="card">
         </ul>
     </div>
 </div>
-`).appendTo(Forecast)
+`).appendTo(forecastContainer)
 
      
 

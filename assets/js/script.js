@@ -7,6 +7,7 @@ var cityInputEl = document.querySelector("#city-input");
 var cityWeatherSearch = document.querySelector("#search-city-weather");
 var cityUvi = document.querySelector(".city-uvi");
 var forecastContainer = document.querySelector(".five-day-container");
+var iconContainer = document.querySelector("#icon-main");
 
 
 var formSubmitHandler = function (event) {
@@ -46,12 +47,14 @@ var formSubmitHandler = function (event) {
                 var humidity = document.createElement("p")
                 humidity.textContent = " Humidity: " + response.main.humidity + ' %'
 
-
+                
                 cityWeatherSearch.append(cityName, temp, windSpeed, humidity)
 
+              
                 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${defaultUnits}&appid=${apiKey}`
                 ).then(function (response) {
                     $(forecastContainer).html("");
+                    $(iconContainer).html("");
                     return response.json();
                 })
                     .then(function (response) {
@@ -61,35 +64,39 @@ var formSubmitHandler = function (event) {
                         uvi.textContent = " UV Index: " + response.current.uvi
                         cityUvi.append(uvi)
 
+                        // Day 1
                         var forecastDay1 = moment().add(1, 'days')
                         var temp1 = response.daily[0].temp.day
                         var wind1 = response.daily[0].wind_speed
                         var humidity1 = response.daily[0].humidity
                         var icon1 = "https://openweathermap.org/img/w/" + response.daily[0].weather[0].icon + ".png"
-                        
+                        // Day 2
                         var forecastDay2 = moment().add(2, 'days')
                         var temp2 = response.daily[1].temp.day
                         var wind2 = response.daily[1].wind_speed
                         var humidity2 = response.daily[1].humidity
                         var icon2 = "https://openweathermap.org/img/w/" + response.daily[1].weather[0].icon + ".png"
-
+                        // Day 3
                         var forecastDay3 = moment().add(3, 'days')
                         var temp3 = response.daily[2].temp.day
                         var wind3 = response.daily[2].wind_speed
                         var humidity3 = response.daily[2].humidity
                         var icon3 = "https://openweathermap.org/img/w/" + response.daily[2].weather[0].icon + ".png"
-
+                        // Day 4
                         var forecastDay4 = moment().add(4, 'days')
                         var temp4 = response.daily[3].temp.day
                         var wind4 = response.daily[3].wind_speed
                         var humidity4 = response.daily[3].humidity
                         var icon4 = "https://openweathermap.org/img/w/" + response.daily[3].weather[0].icon + ".png"
-
+                        // Day 5
                         var forecastDay5 = moment().add(5, 'days')
                         var temp5 = response.daily[4].temp.day
                         var wind5 = response.daily[4].wind_speed
                         var humidity5 = response.daily[4].humidity
                         var icon5 = "https://openweathermap.org/img/w/" + response.daily[4].weather[0].icon + ".png"
+
+                        var icon = "https://openweathermap.org/img/w/" + response.current.weather[0].icon + ".png"
+                        $(`<img src="${icon}" alt="">`).appendTo(iconContainer)
                         
 
                         $(`<div class="card">
@@ -164,6 +171,8 @@ $(`<div class="card">
     </div>
 </div>
 `).appendTo(forecastContainer)
+
+
 
      
 

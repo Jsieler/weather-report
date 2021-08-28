@@ -8,13 +8,13 @@ var cityWeatherSearch = document.querySelector("#search-city-weather");
 var cityUvi = document.querySelector(".city-uvi");
 var forecastContainer = document.querySelector(".five-day-container");
 var iconContainer = document.querySelector("#icon-main");
-var searchesContainer= document.querySelector(".recent-searches");
+var searchesContainer = document.querySelector(".recent-searches");
 
 
 
 var formSubmitHandler = function (event) {
     event.preventDefault();
-    
+
     var city = cityInputEl.value.trim();
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}${defaultUnits}&appid=${apiKey}`
     ).then(function (response) {
@@ -27,14 +27,14 @@ var formSubmitHandler = function (event) {
             console.log(lon, lat)
             console.log(response);
             if (city) {
-            
+
                 localStorage.setItem('city', city)
                 var recentSearches = localStorage.getItem('city')
                 console.log(recentSearches)
-                $(`<ul class="list-group">
-                <li class="list-group-item">${recentSearches}</li>
-                </ul>`).appendTo(searchesContainer)
-                
+                $(`<div>
+                <button>${recentSearches}</button>
+                </div>`).appendTo(searchesContainer)
+
 
                 var displayCurrentDate = document.querySelector(".city-current-date");
                 var currentDate = moment();
@@ -55,10 +55,10 @@ var formSubmitHandler = function (event) {
                 var humidity = document.createElement("p")
                 humidity.textContent = " Humidity: " + response.main.humidity + ' %'
 
-                
+
                 cityWeatherSearch.append(cityName, temp, windSpeed, humidity)
 
-              
+
                 fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}${defaultUnits}&appid=${apiKey}`
                 ).then(function (response) {
                     $(forecastContainer).html("");
@@ -67,7 +67,7 @@ var formSubmitHandler = function (event) {
                 })
                     .then(function (response) {
                         console.log(response);
-                        
+
                         var uvi = document.createElement("p")
                         uvi.textContent = " UV Index: " + response.current.uvi
                         cityUvi.append(uvi)
@@ -105,7 +105,7 @@ var formSubmitHandler = function (event) {
 
                         var icon = "https://openweathermap.org/img/w/" + response.current.weather[0].icon + ".png"
                         $(`<img src="${icon}" alt="">`).appendTo(iconContainer)
-                        
+
 
                         $(`<div class="card">
     <div class="card-header">
@@ -122,7 +122,7 @@ var formSubmitHandler = function (event) {
 </div>
 `).appendTo(forecastContainer)
 
-$(`<div class="card">
+                        $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay2.format("L")}</h2>
         <h3 class="card-title"><img class="card-img-top" src="${icon2}" alt=""></h3>
@@ -137,7 +137,7 @@ $(`<div class="card">
 </div>
 `).appendTo(forecastContainer)
 
-$(`<div class="card">
+                        $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay3.format("L")}</h2>
         <h3 class="card-title"><img class="card-img-top" src="${icon3}" alt=""></h3>
@@ -151,7 +151,7 @@ $(`<div class="card">
     </div>
 </div>
 `).appendTo(forecastContainer)
-$(`<div class="card">
+                        $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay4.format("L")}</h2>
         <h3 class="card-title"><img class="card-img-top" src="${icon4}" alt=""></h3>
@@ -165,7 +165,7 @@ $(`<div class="card">
     </div>
 </div>
 `).appendTo(forecastContainer)
-$(`<div class="card">
+                        $(`<div class="card">
     <div class="card-header">
         <h2 class="card-title">${forecastDay5.format("L")}</h2>
         <h3 class="card-title"><img class="card-img-top" src="${icon5}" alt=""></h3>
@@ -182,7 +182,7 @@ $(`<div class="card">
 
 
 
-     
+
 
 
                     });
@@ -191,10 +191,18 @@ $(`<div class="card">
 
 };
 
+var clickHandler = function (event) {
+    // Still trying to figure out how to replace my searched input data with the recent searched data of button pressed
+    formSubmitHandler(event)
+}
+
+
 
 // search button 
 userFormEl.addEventListener("submit", formSubmitHandler);
 
+// recent city searches
+searchesContainer.addEventListener("click", clickHandler)
 
    
 
